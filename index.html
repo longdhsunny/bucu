@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title> System 4K </title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+<div class="aurora"><span></span><span></span><span></span></div>
+
+<div class="device">
+
+    <!-- ===== VIDEO NỀN 4K ===== -->
+    <div class="live-wallpaper">
+        <video id="bgVideo" autoplay muted loop playsinline>
+            <source src="assets/wallpaper.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- ===== HOA ANH ĐÀO RƠI 4K ===== -->
+    <canvas id="sakuraCanvas"></canvas>
+
+    <div class="dynamic-island"><div class="cam-dot"></div></div>
+
+    <div class="status-bar">
+        <span class="status-time" id="clock">9:41</span>
+        <div class="status-icons">
+            <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+            <i class="fas fa-wifi" style="font-size:12px;"></i>
+            <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+    </div>
+
+    <div class="screen">
+
+        <!-- ====== TAB 1: TRANG CHÍNH ====== -->
+        <div id="tab1" class="tab-content">
+            <div class="page-title">🌸 Trang chính</div>
+
+            <div class="group">
+                <div class="group-card image-frame-wrapper">
+                    <div class="image-frame">
+                        <!-- ===== VIDEO DASHBOARD ===== -->
+                        <video id="dashboardVideo" autoplay muted loop playsinline>
+                            <source src="assets/dashboard.mp4" type="video/mp4">
+                        </video>
+                        <div class="image-overlay"></div>
+                        <span class="image-label">4K<span class="live-chip"><span class="dot"></span>LIVE</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== NHÓM PHÁT NHẠC ===== -->
+            <div class="group">
+                <div class="group-header">🎵 Music Player</div>
+                <div class="group-card">
+                    <div class="row" style="padding: 14px;">
+                        <div class="row-icon icon-music"><i class="fas fa-music"></i></div>
+                        <div class="music-info">
+                            <div class="track-name" id="trackName">Loading...</div>
+                            <div class="track-artist" id="trackArtist">VCTech Music</div>
+                            <div class="loop-badge">🔁 Lặp lại</div>
+                        </div>
+                        <div class="music-controls">
+                            <button class="music-btn play-btn" id="playBtn" title="Play/Pause">
+                                <i class="fas fa-play" id="playIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 4px 14px 14px; gap:10px;">
+                        <i class="fas fa-volume-low" style="color:var(--text-3); font-size:14px;"></i>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7" style="flex:1; accent-color:var(--accent); background:transparent; cursor:pointer; height:4px; border-radius:2px; -webkit-appearance:none; background:linear-gradient(90deg, var(--accent) 70%, rgba(255,255,255,0.1) 70%);">
+                        <i class="fas fa-volume-high" style="color:var(--text-3); font-size:14px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-header">⚡ Tinh chỉnh hiệu năng</div>
+                <div class="group-card">
+                    <div class="row" data-func="1">
+                        <div class="row-icon icon-touch"><i class="fas fa-hand-pointer"></i></div>
+                        <span class="row-label">Độ nhạy màn hình</span>
+                        <div class="ios-switch on" data-toggle="1"><div class="knob"></div></div>
+                    </div>
+                    <div class="row" data-func="2">
+                        <div class="row-icon icon-fps"><i class="fas fa-bolt"></i></div>
+                        <span class="row-label">Boost FPS</span>
+                        <div class="ios-switch on" data-toggle="2"><div class="knob"></div></div>
+                    </div>
+                    <div class="row" data-func="3">
+                        <div class="row-icon icon-hz"><i class="fas fa-tv"></i></div>
+                        <span class="row-label">Buff 120Hz</span>
+                        <div class="ios-switch on" data-toggle="3"><div class="knob"></div></div>
+                    </div>
+                    <div class="row" data-func="4">
+                        <div class="row-icon icon-opt"><i class="fas fa-wand-magic"></i></div>
+                        <span class="row-label">Optimize</span>
+                        <div class="ios-switch" data-toggle="4" data-color="purple"><div class="knob"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-header">📊 Hiệu năng</div>
+                <div class="chart-card">
+                    <div class="chart-head">
+                        <div>
+                            <div class="label">CPU Load</div>
+                            <div class="big-value" id="cpuPercent">0<span>%</span></div>
+                        </div>
+                        <span class="live-badge"><span class="dot"></span>TRỰC TIẾP</span>
+                    </div>
+                    <div class="chart-container">
+                        <svg viewBox="0 0 400 118" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#ff6b9d" stop-opacity="0.5" />
+                                    <stop offset="60%" stop-color="#ff8aae" stop-opacity="0.15" />
+                                    <stop offset="100%" stop-color="#ff8aae" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="20" x2="400" y2="20" class="cpu-chart-grid" />
+                            <line x1="0" y1="59" x2="400" y2="59" class="cpu-chart-grid" />
+                            <line x1="0" y1="98" x2="400" y2="98" class="cpu-chart-grid" />
+                            <text x="4" y="16" class="cpu-chart-label">100</text>
+                            <text x="4" y="55" class="cpu-chart-label">50</text>
+                            <text x="4" y="94" class="cpu-chart-label">0</text>
+                            <path id="cpuChartFill" class="cpu-chart-fill" />
+                            <path id="cpuChartPath" class="cpu-chart-path" />
+                            <circle id="cpuHalo" cx="20" cy="59" r="10" class="cpu-end-halo" />
+                            <circle id="cpuChartDot" cx="20" cy="59" r="4" class="cpu-end-dot" />
+                        </svg>
+                    </div>
+                    <div class="chart-stats">
+                        <div class="stat">
+                            <div class="stat-label">Tần số</div>
+                            <div class="stat-value" id="cpuFreq">0 MHz</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Nhiệt độ</div>
+                            <div class="stat-value" id="cpuTemp">0°C</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Trạng thái</div>
+                            <div class="stat-value" style="color:var(--green)">Ổn định</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== TAB 2: ADMIN ====== -->
+        <div id="tab2" class="tab-content hidden">
+            <div class="page-title">🌸 Giới thiệu</div>
+
+            <div class="profile-head">
+                <div class="avatar-ring">
+                    <div class="avatar">
+                        <img src="assets/admin.jpg" alt="Admin"> 
+                    </div>
+                </div>
+                <div class="profile-name">Đinh Long</div>
+                <div class="profile-role"><i class="fas fa-shield-halved"></i> Founder &amp; CEO</div>
+                <div class="profile-team">🌸 VCTech</div>
+            </div>
+
+            <div class="group">
+                <div class="group-card">
+                    <div class="row">
+                        <div class="row-icon icon-phone"><i class="fas fa-phone"></i></div>
+                        <span class="row-label">Điện thoại</span>
+                        <span class="row-value">0367393879</span>
+                        <i class="fa-regular fa-chevron-right row-chevron"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-header">🌸 Giới thiệu ứng dụng</div>
+                <div class="desc-card">
+                    <div class="title"><i class="fas fa-circle-info"></i>VCtech lite 4K</div>
+                    <p>🌸 app được đội ngũ chúng tôi phát triển nhầm mục đích hỗ trợ các dòng máy nóng lag khi dùng ứng dụng hoặc chơi game app có thể theo dõi xung nhịp của cpu để người có thể biết cpu mình đang sử dụng mức cao hay thấp</p>
+                    <div class="social-row">
+                        <a href="https://facebook.com" target="_blank" class="social-btn facebook"><i class="fab fa-facebook"></i>Facebook</a>
+                        <a href="https://zalo.me/0367393879" target="_blank" class="social-btn zalo"><i class="fas fa-comment-dots"></i>Zalo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tab-bar-wrap">
+        <div class="tab-bar">
+            <button class="tab-item active" data-tab="tab1"><i class="fas fa-house"></i><span>Trang chính</span></button>
+            <button class="tab-item" data-tab="tab2"><i class="fas fa-user"></i><span>Admin</span></button>
+        </div>
+        <div class="home-indicator"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
